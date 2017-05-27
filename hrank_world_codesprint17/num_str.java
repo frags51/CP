@@ -153,9 +153,19 @@ public class num_str{
         int m = s.nextInt();
         
         
-        int sum = 0;
+        long sum = 0;
         if(DEB) System.out.println(">> Before loop");
-        for(int i=0; i<(in.length() + 1 - k); i++){
+        String p = in.substring(0, 0+k);
+        BigInteger val = new BigInteger(p, b);
+        BigInteger _m = new BigInteger(String.valueOf(m));
+        BigInteger modd = val.remainder(_m);
+        sum+=modd.longValue();
+
+        //REMOVE ALL BELOW this
+        //Create an array of bigints: Store {1,2,3...b-1}^k mod m
+        //CALCULATE ONCE, then just add -First^k + last mod m!
+        for(int i=k; i<in.length(); i++){
+            /*
             if(DEB) System.out.println(">> I:"+i);
             String p = in.substring(i, i+k);
             /*            long val=0;
@@ -163,7 +173,7 @@ public class num_str{
             for(int j=0; j<r; j++){
                 val+=((Character.getNumericValue(p.charAt(r-j-1))) * (Math.pow((double)b,(double) j)));
             }
-            */
+            
             //long val=Long.parseUnsignedLong(p, b);
             //int val = Integer.parseUnsignedInt(p, b);
             BigInteger val = new BigInteger(p, b);
@@ -172,8 +182,10 @@ public class num_str{
             if(DEB) System.out.println("\t>>>>> "+val);
 
             //int r = p.length();
-            BigInteger modd = val.remainder(_m);
+            
             sum+=modd.intValue();
+            */
+            
         }//for
 
         System.out.println(sum);
