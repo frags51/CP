@@ -47,7 +47,7 @@ public class Contest{
             int cnt = 0, c;
             while ((c = read()) != -1)
             {
-                if (c == ' ')
+                if (c == ' ' || c=='\n') //care ADD ANY WHITESPACE CHAR??
                     break;
                 buf[cnt++] = (byte) c;
             }
