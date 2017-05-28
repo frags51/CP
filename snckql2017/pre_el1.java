@@ -175,7 +175,7 @@ TEST:   for(int blah=0; blah<t; blah++){
                 }
                 // ..###.blah
                 // ..####blah 
-                else if(up[1].charAt(ui-1)=='#'){ //CARE index out of bound ERRORS HERE
+                else if(up[1].charAt(ui)=='#'){ //CARE index out of bound ERRORS HERE
                     //Note in first cell, there is no # beneath it. (case covered above)
                     if(DEB) System.out.println("\t>>>>up[1].charAt(ui-1)=='#'");
                     int entry = 0; // 0->Horiz, 1: Vert;
@@ -202,7 +202,7 @@ TEST:   for(int blah=0; blah<t; blah++){
                 } //else if ends
                 // ..####blah
                 // ..###. blah
-                else if(up[0].charAt(ui-1)=='#'){
+                else if(up[0].charAt(ui)=='#'){
                     //Note in first cell, there is no # beneath it. (case covered above)
                     int entry = 0; // 0->Horiz, 1: Vert;
                     int read = 0; // 0 : UP, 1: low
