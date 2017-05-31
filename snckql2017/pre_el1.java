@@ -150,7 +150,7 @@ TEST:   for(int blah=0; blah<t; blah++){
             up[1] = s.readLine();
             int ui = 0;
             int di = 0;
-            boolean DEB=true;
+            boolean DEB=false;
             while(ui<n && up[0].charAt(ui)=='.' ) ui++; //find first occurances of #
             while(di<n && up[1].charAt(di)=='.') di++;
             if(DEB) System.out.println("\t>>>>ui: "+ui+" di: "+di);

@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Scanner;
 import java.util.StringTokenizer;
-public class Contest{
+public class pre_el2{
         static class Reader
     {
         final private int BUFFER_SIZE = 1 << 16;
@@ -142,9 +142,21 @@ public class Contest{
  
     public static void main(String[] args) throws IOException{
         Reader s = new Reader(); //Initialize a reader!
-        
+        int t = s.nextInt();
+TEST:   for(int rr=0; rr<t; rr++){
+            int n = s.nextInt();
+            long[] cum_sum = new long[n+1]; //cumulative sum.
+
+        }   //TEST LOOP 
 
     } //main
 
+    public static long minSteps(int[] a, int lo, int hi){ //1-index array
+        if(lo == hi) return (long) (a[lo] - 1);
+        else if((lo%2)==(hi%2)){ //odd number of elements.
+            int mid = (lo+hi)/2;
+            long v1 = (long) Math.square((double)mid);
+        }
+    }
 
 } //public class Contest

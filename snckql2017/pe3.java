@@ -4,7 +4,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Scanner;
 import java.util.StringTokenizer;
-public class Contest{
+import java.util.Arrays;
+public class pe3{
         static class Reader
     {
         final private int BUFFER_SIZE = 1 << 16;
@@ -142,9 +143,91 @@ public class Contest{
  
     public static void main(String[] args) throws IOException{
         Reader s = new Reader(); //Initialize a reader!
-        
+        int t = s.nextInt();
+        for(int blah=t; blah<t; blah++){
+            int n = s.nextInt();
+            int m = s.nextInt();
+            int u=0, v=0;
+            int[] d = new int[n+1]; //1-indexed array. Intialized to 0.
+            for(int i=1; i<=n; i++){
+                u = s.nextInt();
+                v = s.nextInt();
+                d[u]++;
+                d[v]++;
+            }
+            Arrays.sort(d);
+            int r;
+            for(r=0; r<n; r++){
+                int l = Bsearch.low_lim(r, d, 1, n);// 1-indexed array
+                int h = Bsearch.up_lim(r,d,1,n);
+                if(l==h && l==1){ //all elements have degree > r
+                    System.out.println("0 ");
+                }
+                else if(l==h && l==n+1){ //Few elements with deg < r
+                    System.out.println((l-2)+" ");
+                }
+                else if(l==h){
+                    
+                }
+            }
+        }//Test loop
 
     } //main
 
 
 } //public class Contest
+
+class Bsearch{
+  public static <T extends Comparable<? super T>> int bs(T key, T[] arr, int lo, int hi){
+    while(lo<=hi){
+      int mid = (int) (lo + hi)/2;
+
+      int u = key.compareTo(arr[mid]);
+      if(u == 0){
+        return mid;
+      }
+      else if(u < 0){
+        hi = mid-1;
+      }
+      else if(u > 0){
+        lo = mid+1;
+      }
+
+    } //while loop
+    return -1;
+  } //bs
+
+  public static <T extends Comparable<? super T>> int low_lim(T key, T[] arr, int lo, int hi){
+    while(lo<=hi){
+      int mid = (int) (lo + hi)/2;
+
+      int u = key.compareTo(arr[mid]);
+      
+      if(u <= 0){ //keep moving left in case element is found once.
+        hi = mid-1;
+      }
+      else if(u > 0){
+        lo = mid+1;
+      }
+
+    } //while loop
+    return lo;
+  } //low_lim
+
+  public static <T extends Comparable<? super T>> int up_lim(T key, T[] arr, int lo, int hi){
+    while(lo<=hi){
+      int mid = (int) (lo + hi)/2;
+
+      int u = key.compareTo(arr[mid]);
+
+      if(u < 0){
+        hi = mid-1;
+      }
+      else if(u >= 0){
+        lo = mid+1;
+      }
+
+    } //while loop
+    return lo;
+  } //low_lim
+}//class ends

@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Scanner;
 import java.util.StringTokenizer;
-public class Contest{
+public class pe2{
         static class Reader
     {
         final private int BUFFER_SIZE = 1 << 16;
@@ -28,7 +28,7 @@ public class Contest{
  
         public String readLine() throws IOException
         {
-            byte[] buf = new byte[64]; // line length
+            byte[] buf = new byte[200000]; // line length
             int cnt = 0, c;
             while ((c = read()) != -1)
             {
@@ -142,7 +142,91 @@ public class Contest{
  
     public static void main(String[] args) throws IOException{
         Reader s = new Reader(); //Initialize a reader!
-        
+        int t = s.nextInt();
+        for(int _t=0; _t<t; _t++){
+            int n = s.nextInt();
+            String u = s.readLine();
+            String d = s.readLine();
+            boolean DEB = false;
+            int us1 = 0, us2 = 0, ds1=0, ds2=0;
+
+            while(us1<u.length() && u.charAt(us1)== '.') us1++;
+            while(ds1<d.length() && d.charAt(ds1)== '.') ds1++;
+
+            int fence = 0;
+            if(us1==ds1 && us1 == n) System.out.println(fence);
+            else if(ds1 == n){
+                while(true){
+                    us2=us1+1;
+                    while(us2<n && u.charAt(us2)=='.') us2++;
+                    if(us2==n) break;
+                    fence++;
+                    us1 = us2;
+                }
+                System.out.println(fence);
+            }
+            else if(us1 == n){
+                while(true){
+                    ds2=ds1+1;
+                    while(ds2<n && d.charAt(ds2)=='.') ds2++;
+                    if(ds2==n) break;
+                    fence++;
+                    ds1 = ds2;
+                }
+                System.out.println(fence);
+            }
+            else {
+                fence++; //horizontal fence.
+                //get 2nd snakes
+                us2=us1+1;
+                ds2=ds1+1;
+                while(us2<n && u.charAt(us2)=='.') us2++;
+                while(ds2<n && d.charAt(ds2)=='.') ds2++;
+                if(DEB) System.out.println(">>> 1: us2: "+us2+" ds2: "+ds2);
+                // if 2nd snakes exist.
+                while(us2<n && ds2 <n){
+                    if((us1 >= ds2)){
+                        fence++;
+                        ds1=ds2;
+                        ds2++;
+                        while(ds2<n && d.charAt(ds2)=='.') ds2++;
+                    }
+                    else if(ds1>=us2){
+                        fence++;
+                        us1=us2;
+                        us2++;
+                        while(us2<n && u.charAt(us2)=='.') us2++;
+                    }
+                    else{
+                        fence++;
+                        us1=us2;
+                        ds1=ds2;
+                        us2++;
+                        ds2++;   
+                        while(us2<n && u.charAt(us2)=='.') us2++; 
+                        while(ds2<n && d.charAt(ds2)=='.') ds2++;
+                    }                
+                    
+                }
+                if(DEB) System.out.println(">>> 2");
+                while(true){// 
+                    us2=us1+1;
+                    while(us2<n && u.charAt(us2)=='.') us2++;
+                    if(us2==n) break;
+                    fence++;
+                    us1 = us2;
+                }
+                if(DEB) System.out.println(">>> 3");
+                while(true){
+                    ds2=ds1+1;
+                    while(ds2<n && d.charAt(ds2)=='.') ds2++;
+                    if(ds2==n) break;
+                    fence++;
+                    ds1 = ds2;
+                }
+                System.out.println(fence);
+            }       
+        }//Test
 
     } //main
 
