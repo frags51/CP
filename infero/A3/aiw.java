@@ -1,10 +1,8 @@
-import java.io.DataInputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Scanner;
-import java.util.StringTokenizer;
-public class Contest{
+//Hackerrank Count-luck
+//DFS -> recursion
+import java.io.*;
+import java.util.*;
+public class aiw{
         static class Reader
     {
         final private int BUFFER_SIZE = 1 << 16;
@@ -142,9 +140,64 @@ public class Contest{
  
     public static void main(String[] args) throws IOException{
         Reader s = new Reader(); //Initialize a reader!
-        
+        int t = s.nextInt();
+        for(int r = 0; r<t; r++){
+            int n = s.nextInt();
+            int m = s.nextInt();
+            Dfs d = new Dfs(n,m);
+            char[][] row = new char[n][m];
+            int R=-1, C=-1;
+            for(int tt=0; tt<n;tt++){
+                String a = s.readLine();
+                if(a.indexOf('A')!=-1) {R = tt; C = a.indexOf('A');}
+                row[tt] = a.toCharArray();
+            }
+            //scanning done.
+            if(R==-1) {System.out.println("NO"); return;}
+            //d.vis2[R][C]=true;
+            for(int i = 0; i<n;i++){
+                for(int j=0; j<n;j++){
+                    if(row[i][j]=='A') d.go(row,i,j,n,m,1);
+                    if(d.found) break;
+                }
+                if(d.found) break;
+            }
+            if (d.found) System.out.println("YES");
+            else System.out.println("NO");
+        } //test case
 
     } //main
-
-
 } //public class Contest
+
+class Dfs{
+    
+    public boolean found;
+    public boolean[][] vis;
+    public char[] word;
+    //public short pos;
+    public Dfs(int n, int m){
+        found=false;
+        //pos=0;
+        word = ".ALLIZZWELL".toCharArray();
+        vis = new boolean[n][m];
+        
+        for(int i=0; i<n; i++) vis[i] = new boolean[m];
+    }
+    public boolean go(char[][] a, int r, int c, int n, int m, int p){
+            vis[r][c] = true;
+            if(p==10) {this.found=true;vis[r][c]=false;return true;}
+            else{
+                if(r>0 &&!this.vis[r-1][c] && a[r-1][c]==this.word[p+1]) go(a, r-1,c,n,m,p+1); //up
+                if(r>0 && c>0&&!this.vis[r-1][c-1]&&a[r-1][c-1]==this.word[p+1]) go(a, r-1,c-1,n,m,p+1); //UPPER_LEFT_CORNER
+                if(r>0 && c<m-1 &&!this.vis[r-1][c+1]&& a[r-1][c+1]==this.word[p+1]) go(a, r-1,c+1,n,m,p+1); //upright;
+                if(c>0&&!this.vis[r][c-1]&& a[r][c-1]==this.word[p+1]) go(a, r,c-1,n,m,p+1); //left
+                if(c<m-1&&!this.vis[r][c+1]&& a[r][c+1]==this.word[p+1]) go(a, r,c+1,n,m,p+1); //right
+                if(r<n-1 &&!this.vis[r+1][c]&& a[r+1][c]==this.word[p+1]) go(a, r+1,c,n,m,p+1);//down
+                if(r<n-1 && c>0 &&!this.vis[r+1][c-1]&& a[r+1][c-1]==this.word[p+1]) go(a, r+1,c-1,n,m,p+1);//down left
+                if(r<n-1 && c<m-1 &&!this.vis[r+1][c+1]&& a[r+1][c+1]==this.word[p+1]) go(a, r+1,c+1,n,m,p+1);//down-right
+            }
+            vis[r][c]=false;    
+            return false;
+        }
+    }//clas dfs
+//    

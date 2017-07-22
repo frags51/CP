@@ -1,10 +1,8 @@
-import java.io.DataInputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Scanner;
-import java.util.StringTokenizer;
-public class Contest{
+//
+//DSU -- RVERSE
+import java.io.*;
+import java.util.*;
+public class cf_722c{
         static class Reader
     {
         final private int BUFFER_SIZE = 1 << 16;
@@ -142,9 +140,64 @@ public class Contest{
  
     public static void main(String[] args) throws IOException{
         Reader s = new Reader(); //Initialize a reader!
-        
-
+        boolean DEB = false;
+        int n = s.nextInt();
+        UnionFind g = new UnionFind(n);
+        for(int i = 0; i < n; i++) g.setSize.set(i, (long)s.nextInt());
+        Deque<Integer> stack = new LinkedList<Integer>();
+        Deque<Long> ans = new LinkedList<Long>();
+        for(int i = 0; i < n; i++) stack.push(s.nextInt());
+        long max = 0L;
+        for(int i=0; i < n; i++){
+            ans.push(max);
+            int id = stack.pop()-1;
+            g.act.set(id, true);
+            
+            if((id>0 && g.act.get(id-1))) {g.unionSet(id, id-1);}
+            if(id<n-1 && g.act.get(id+1)) g.unionSet(id, id+1);
+            long sz = g.sizeOfSet(id);
+            max = max > sz ? max : sz;
+            if(DEB) System.out.println("Sz: "+sz+" for id= "+id);
+        }
+        while(ans.peek()!=null) System.out.println(ans.pop());
     } //main
-
-
 } //public class Contest
+
+class UnionFind {                                              // OOP style
+  public Vector<Integer> p, rank;
+  public int numSets;
+  public Vector<Long> setSize;
+  public Vector<Boolean> act;
+
+  public UnionFind(int N) {
+    p = new Vector<Integer>(N); //p for parent
+    rank = new Vector<Integer>(N);
+    setSize = new Vector<Long>(N);
+    numSets = N;
+    act = new Vector<Boolean>(N);
+    for (int i = 0; i < N; i++) {
+      p.add(i);
+      rank.add(0);
+      setSize.add(1L);
+      act.add(false);
+    }
+  }
+
+  public int findSet(int i) { 
+    if (p.get(i) == i) return i;
+    else {
+      int ret = findSet(p.get(i)); p.set(i, ret); //path compression
+      return ret; } }
+
+  public Boolean isSameSet(int i, int j) { return findSet(i) == findSet(j); }
+
+  public void unionSet(int i, int j) { 
+    if (!isSameSet(i, j)) { numSets--; 
+    int x = findSet(i), y = findSet(j);
+    // rank is used to keep the tree short
+    if (rank.get(x) > rank.get(y)) { p.set(y, x); setSize.set(x, (long)setSize.get(x) + setSize.get(y)); }
+    else                           { p.set(x, y); setSize.set(y, (long)setSize.get(y) + setSize.get(x));
+                                     if (rank.get(x) == rank.get(y)) rank.set(y, rank.get(y) + 1); } } }
+  public int numDisjointSets() { return numSets; }
+  public long sizeOfSet(int i) { return setSize.get(findSet(i)); }
+}

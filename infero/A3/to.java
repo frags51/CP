@@ -1,10 +1,8 @@
-import java.io.DataInputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Scanner;
-import java.util.StringTokenizer;
-public class Contest{
+//Hackerrank Count-luck
+//DFS -> recursion
+import java.io.*;
+import java.util.*;
+public class to{
         static class Reader
     {
         final private int BUFFER_SIZE = 1 << 16;
@@ -142,9 +140,50 @@ public class Contest{
  
     public static void main(String[] args) throws IOException{
         Reader s = new Reader(); //Initialize a reader!
-        
-
+        int n = s.nextInt();
+        int[] pre = new int[n];
+        int[] post = new int[n];
+        int[] in = new int[n];
+        for(int i=0; i<n; i++) pre[i] = s.nextInt();
+        for(int i=0; i<n; i++) post[i] = s.nextInt();
+        for(int i=0; i<n; i++) in[i] = s.nextInt();
+        Node root = Tree.makeTree(pre, in, 0, n-1);
+        Tree.__post(root, post);
+        if(!Tree.found) System.out.println("no");
+        else System.out.println("yes");
     } //main
-
-
 } //public class Contest
+
+class Node{
+    public int num;
+    public Node left, right;
+    public Node(int a){
+        this.num = a;
+        this.left=null;
+        this.right=null;
+    }
+}
+class Tree{
+    public static int pi = 0;
+    public static int poi = 0;
+    public static boolean found = true;
+    
+    public static Node makeTree(int[] pre, int[] in, int lo, int hi){
+        if(lo>hi) return null;
+        Node tNode = new Node(pre[pi++]);
+        if(lo==hi) return tNode;
+        int i=0;
+        for(int r=lo; r<=hi; r++) if(in[r] == tNode.num) i = r; 
+        tNode.left = makeTree(pre, in, lo, i-1);
+        tNode.right = makeTree(pre, in, i+1, hi);
+
+        return tNode;
+    } //maketree
+    public static int __post(Node root, int[] post){
+        if(root == null) return -1;
+        __post(root.left, post);
+        __post(root.right, post);
+        if(root.num!=post[poi++]){found=false;}
+        return 0;
+    }
+}//class tree

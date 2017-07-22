@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Scanner;
 import java.util.StringTokenizer;
-public class Contest{
+public class cf_816c{
         static class Reader
     {
         final private int BUFFER_SIZE = 1 << 16;
@@ -47,7 +47,7 @@ public class Contest{
             int cnt = 0, c;
             while ((c = read()) != -1)
             {
-                if (Character.isWhitespace(c)) //care ADD ANY WHITESPACE CHAR??
+                if (c == ' ' || c=='\n') //care ADD ANY WHITESPACE CHAR??
                     break;
                 buf[cnt++] = (byte) c;
             }
@@ -142,7 +142,50 @@ public class Contest{
  
     public static void main(String[] args) throws IOException{
         Reader s = new Reader(); //Initialize a reader!
+        boolean DEB = false;
+        int n = s.nextInt();
+        int m = s.nextInt();
+        int[][] matrix = new int[n+1][m+1];
+        int[] r_min = new int[n+1];
+        for(int i = 0; i<n+1; i++) r_min[i]=0;
+        int rows = 0;
         
+        for(int i=1; i<n+1; i++){
+            int fl = 0;
+            for(int j = 1; j<m+1; j++) {
+                
+                matrix[i][j] = s.nextInt();
+                if(fl!=0) r_min[i] = r_min[i] <= matrix[i][j] ? r_min[i] : matrix[i][j];
+                else{
+                    r_min[i] = matrix[i][j];
+                    fl = 1;
+                }
+            }
+            if(DEB) System.out.println("R_min:" +r_min[i]);
+            rows+=r_min[i];
+            for(int j = 1; j<m+1; j++) {
+                matrix[i][j]-=r_min[i];                
+            }
+        }
+        boolean pos = true;
+        int cols = 0;
+CH:     for(int j = 1; j<m+1; j++){
+            for(int i=1; i<n; i++){
+                if(matrix[i][j] == matrix[i+1][j]) continue;
+                else{ pos = false; break CH;}
+            }
+            cols+=matrix[1][j];
+        }
+        if(!pos) System.out.println("-1");
+        else{
+            System.out.println(rows+cols);
+            for(int i = 1; i<n+1; i++){
+                for(int t=0; t<r_min[i]; t++) System.out.println("row "+i);
+            }
+            for(int j = 1; j<m+1; j++){
+                for(int t=0; t<matrix[1][j]; t++) System.out.println("col "+j);
+            }
+        }
 
     } //main
 

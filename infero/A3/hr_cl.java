@@ -1,10 +1,8 @@
-import java.io.DataInputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Scanner;
-import java.util.StringTokenizer;
-public class Contest{
+//Hackerrank Count-luck
+//DFS -> recursion
+import java.io.*;
+import java.util.*;
+public class hr_cl{
         static class Reader
     {
         final private int BUFFER_SIZE = 1 << 16;
@@ -142,9 +140,51 @@ public class Contest{
  
     public static void main(String[] args) throws IOException{
         Reader s = new Reader(); //Initialize a reader!
-        
+        int t = s.nextInt();
+        for(int r = 0; r<t; r++){
+            Dfs.junctions = 0;
+            Dfs.found=false;//initialize!
+            int n = s.nextInt();
+            int m = s.nextInt();
+            char[][] row = new char[n][m];
+            int R=0, C=0;
+            for(int tt=0; tt<n;tt++){
+                String a = s.readLine();
+                if(a.indexOf('M')!=-1) {R = tt; C = a.indexOf('M');}
+                row[tt] = a.toCharArray();
+            }
+            //scanning done.
+            int k = s.nextInt();
+            Dfs.go(row, R, C, n, m);
+            if (Dfs.junctions == k) System.out.println("Impressed");
+            else System.out.println("Oops!");
+        } //test case
 
     } //main
-
-
 } //public class Contest
+
+class Dfs{
+    public static int junctions = 0;
+    public static boolean found = false;
+
+    public static void go(char[][] a, int r, int c, int n, int m){
+        if(Dfs.found) return;
+        int paths = 0; //no. of paths from this node.
+
+        //dfs right
+        if(c < m-1 && a[r][c+1] == '.'){paths++; a[r][c]='X';go(a,r,c+1,n,m);} //Mark 'X' as visited.
+        else if(c < m-1 && a[r][c+1] == '*'){paths++; found = true;}
+        //dfs left.
+        if(c>0 && a[r][c-1] == '.'){paths++; a[r][c]='X';go(a,r,c-1,n,m);} //Mark 'X' as visited.
+        else if(c>0 && a[r][c-1] == '*'){paths++; found = true;}
+        //dfs up
+        if(r>0 && a[r-1][c] == '.'){paths++; a[r][c]='X';go(a,r-1,c,n,m);} //Mark 'X' as visited.
+        else if(r>0 && a[r-1][c] == '*'){paths++; found = true;}
+        //dfs down
+        if(r<n-1 && a[r+1][c] == '.'){paths++; a[r][c]='X';go(a,r+1,c,n,m);} //Mark 'X' as visited.
+        else if(r<n-1 && a[r+1][c] == '*'){paths++; found = true;}
+
+        if(found && paths>1) Dfs.junctions++; //backtrack, add junctions on the path found.
+    }
+    
+}

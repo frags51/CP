@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Scanner;
 import java.util.StringTokenizer;
-public class Contest{
+public class cf_816a{
         static class Reader
     {
         final private int BUFFER_SIZE = 1 << 16;
@@ -47,7 +47,7 @@ public class Contest{
             int cnt = 0, c;
             while ((c = read()) != -1)
             {
-                if (Character.isWhitespace(c)) //care ADD ANY WHITESPACE CHAR??
+                if (c == ' ' || c=='\n') //care ADD ANY WHITESPACE CHAR??
                     break;
                 buf[cnt++] = (byte) c;
             }
@@ -142,7 +142,49 @@ public class Contest{
  
     public static void main(String[] args) throws IOException{
         Reader s = new Reader(); //Initialize a reader!
+        boolean DEB = false;
+        StringBuilder in = new StringBuilder(s.readWord());
+        int h = Integer.parseInt(in.substring(0, 2));
+        int m  = Integer.parseInt(in.substring(3, 5));
+        StringBuilder rev2 = new StringBuilder(in);
+        StringBuilder rev = rev2.reverse();
         
+        int rm = Integer.parseInt(rev.substring(4,6));
+        if(DEB) System.out.println(in);
+        if(DEB) System.out.println(rev);
+        
+        if((in.toString()).equals(rev.toString())) System.out.println("0");
+        else if(h<5){ // h==0,1,...4
+            
+            if(m <= rm) System.out.println(rm-m);
+            else System.out.println(rm-m+60+10);
+        }
+        else if(h==5){
+            if(m <= rm) System.out.println(rm-m);
+            else System.out.println(240+60-m+1);
+        }
+        else if(h>=6 && h<10){
+            System.out.println((9-h)*60 + 61 - m);
+        }
+        else if(h<15){
+            if(m <= rm) System.out.println(rm-m);
+            else System.out.println(rm-m+60+10);
+        }
+        else if(h==15){
+            if(m <= rm) System.out.println(rm-m);
+            else System.out.println(240+60-m+2);
+        }
+        else if(h<20){
+            System.out.println((19-h)*60 + 62 - m);
+        }
+        else if(h < 23){
+            if(m <= rm) System.out.println(rm-m);
+            else System.out.println(rm-m+60+10);
+        }
+        else if(h==23){
+            if(m <= rm) System.out.println(rm-m);
+            else System.out.println(60 - m);
+        }
 
     } //main
 

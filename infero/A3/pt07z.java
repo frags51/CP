@@ -1,10 +1,12 @@
+//Spoj_pt07z
 import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Scanner;
 import java.util.StringTokenizer;
-public class Contest{
+import java.util.*;
+public class pt07z{
         static class Reader
     {
         final private int BUFFER_SIZE = 1 << 16;
@@ -142,9 +144,80 @@ public class Contest{
  
     public static void main(String[] args) throws IOException{
         Reader s = new Reader(); //Initialize a reader!
+        int n = s.nextInt();
+        ArrayList<ArrayList<Integer>> adj = new ArrayList<ArrayList<Integer>>();
+        for(int i =0;i <n; i++) adj.add(new ArrayList<Integer>());
+        for(int i=0; i<n-1;i++){
+            int a = (s.nextInt()-1);
+            int b = (s.nextInt()-1);
+            adj.get(a).add(b);
+            adj.get(b).add(a);
+        }
+        int max=0,m2=0;
+
+        //DFS
+        Deque<Integer> stack = new LinkedList<Integer>();
+        stack.push(0);
+        boolean[] vis = new boolean[n];
+        int[] dist = new int[n];
+        vis[0]=true;
+        dist[0]=0;
+        int mi = 0;
         
+        
+        while(!stack.isEmpty()){
+            
+            int p = stack.pop();
+            Iterator<Integer> itr = adj.get(p).iterator();
+            
+            while(itr.hasNext()){
+                int c = itr.next();
+                
+                if(!vis[c]){
+                   
+                    
+                    vis[c] = true;
+                    stack.push(c);
+                    dist[c] = dist[p] + 1;
+                    if(max <= dist[c]) {max=dist[c];mi=c;}
+                }
+            
+            }
+        }
+        for(int i=0; i<n; i++){
+            vis[i] = false;
+            dist[i]=0;
+        }
+        stack.push(mi);
+        vis[mi]=true;
+        dist[mi]=0;
+        while(!stack.isEmpty()){
+            
+            int p = stack.pop();
+            Iterator<Integer> itr = adj.get(p).iterator();
+            
+            while(itr.hasNext()){
+                int c = itr.next();
+                
+                if(!vis[c]){
+                   
+                    
+                    vis[c] = true;
+                    stack.push(c);
+                    dist[c] = dist[p] + 1;
+                    if(max <= dist[c]) {max=dist[c];mi=c;}
+                }
+            
+            }
+        }
+        /*int ct = 0, m2=0;;
+        for(int i=0; i <n; i++){
+            if(dist[i]==max) ct++;
+            if(ct!=0) m2 = m2 > dist[i] ? m2 : dist[i];
+        }*/
+        System.out.println(max);
 
     } //main
 
 
-} //public class Contest
+} //public class Contests

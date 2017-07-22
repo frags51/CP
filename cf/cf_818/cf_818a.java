@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Scanner;
 import java.util.StringTokenizer;
-public class Contest{
+public class cf_818a{
         static class Reader
     {
         final private int BUFFER_SIZE = 1 << 16;
@@ -47,7 +47,7 @@ public class Contest{
             int cnt = 0, c;
             while ((c = read()) != -1)
             {
-                if (Character.isWhitespace(c)) //care ADD ANY WHITESPACE CHAR??
+                if (c == ' ' || c=='\n') //care ADD ANY WHITESPACE CHAR??
                     break;
                 buf[cnt++] = (byte) c;
             }
@@ -142,7 +142,10 @@ public class Contest{
  
     public static void main(String[] args) throws IOException{
         Reader s = new Reader(); //Initialize a reader!
-        
+        long n = s.nextLong();
+        long k = s.nextLong();
+        long c = (long)Math.floor((double) (n/((double)2*((double)(1+k))) ));
+        System.out.println(c+" "+((long) c*k)+" "+((long) n - (long)c*(1+k)));        
 
     } //main
 

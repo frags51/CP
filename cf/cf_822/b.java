@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Scanner;
 import java.util.StringTokenizer;
-public class Contest{
+public class b{
         static class Reader
     {
         final private int BUFFER_SIZE = 1 << 16;
@@ -43,7 +43,7 @@ public class Contest{
         */
         public String readWord() throws IOException
         {
-            byte[] buf = new byte[64]; // line length
+            byte[] buf = new byte[1005]; // line length
             int cnt = 0, c;
             while ((c = read()) != -1)
             {
@@ -138,12 +138,20 @@ public class Contest{
                 return;
             din.close();
         }
+        static int gcd(int a, int b){
+            int min = Math.min(a,b);
+            int max = Math.max(b, a);
+            if(min == 0) return max;
+            else return gcd(min, max%min);
+        }
     } //static class Reader
  
+    
     public static void main(String[] args) throws IOException{
         Reader s = new Reader(); //Initialize a reader!
-        
-
+        String a = s.readWord();
+        String b = s.readWord();
+            
     } //main
 
 

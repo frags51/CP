@@ -4,7 +4,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Scanner;
 import java.util.StringTokenizer;
-public class Contest{
+import java.util.*;
+public class hr_bfs1{
         static class Reader
     {
         final private int BUFFER_SIZE = 1 << 16;
@@ -142,7 +143,49 @@ public class Contest{
  
     public static void main(String[] args) throws IOException{
         Reader s = new Reader(); //Initialize a reader!
-        
+        int t = s.nextInt();
+        for(int r = 0; r<t; r++){
+            int n = s.nextInt();
+            int m = s.nextInt();
+            ArrayList[] adj = new ArrayList[n+1];
+            for(int i = 1; i < n+1; i++) adj[i] = new ArrayList<Integer>();
+            for(int i = 1; i < m+1; i++){
+                int  a = s.nextInt();
+                int b = s.nextInt();
+                adj[a].add((b));
+                adj[b].add((a));
+                
+            }
+            int root = s.nextInt();
+            int[] dist = new int[n+1];
+            boolean[] vis = new boolean[n+1];
+            //bfs
+            Deque<Integer> q = new LinkedList<Integer>();
+            q.addLast(root);
+            vis[root] = true;
+            dist[root] = 0;
+            while(q.peekFirst()!=null){
+                int p = q.peekFirst();
+                q.removeFirst();
+                Iterator itr = adj[p].iterator();
+                while(itr.hasNext()){
+                    int c = ((Integer)itr.next());
+                    if(!vis[c]){
+                        dist[c] = dist[p] + 1;
+                        vis[c] = true;
+                        q.addLast(c);
+                    }
+                }
+            }
+            for(int j=1;j<n+1; j++){
+                if(j==root) continue;
+                else if(dist[j]==0) System.out.print("-1 ");
+                else System.out.print((dist[j]*6)+" ");
+            }
+            System.out.println();
+
+            //
+        } //test case
 
     } //main
 

@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Scanner;
 import java.util.StringTokenizer;
-public class Contest{
+public class cf_818b{
         static class Reader
     {
         final private int BUFFER_SIZE = 1 << 16;
@@ -47,7 +47,7 @@ public class Contest{
             int cnt = 0, c;
             while ((c = read()) != -1)
             {
-                if (Character.isWhitespace(c)) //care ADD ANY WHITESPACE CHAR??
+                if (c == ' ' || c=='\n') //care ADD ANY WHITESPACE CHAR??
                     break;
                 buf[cnt++] = (byte) c;
             }
@@ -138,13 +138,57 @@ public class Contest{
                 return;
             din.close();
         }
+
     } //static class Reader
  
     public static void main(String[] args) throws IOException{
         Reader s = new Reader(); //Initialize a reader!
-        
+        int n = s.nextInt();
+        int m = s.nextInt();
+        int[] l = new int[m+1];
+        for(int jj = 1; jj <=m; jj++) l[jj] = s.nextInt();
+        int[] p = new int[n+1];
+        int[] ed = new int[n+1];
+        boolean DEB = false;
+        boolean poss = true;
+        for(int i = 1; i<m; i++){ // i<= m-1
+            int add = l[i+1] - l[i] > 0 ? l[i+1] - l[i] : l[i+1] - l[i] + n;  
+            if(ed[add] == 0 || p[l[i]] == add){
+                ed[add] = 1;
+                p[l[i]] = add;
+                if(DEB) System.out.println(">>>Add: "+add+" @index: = "+l[i]);
+            }
+            else{
+                if(DEB) System.out.println(">>>Can't Add: "+add+" @index: = "+l[i]);
+                poss = false;
+                break;
+            }
+        }//for
+        if(poss){
+            for(int i = 1; i <=n ; i++){
+                if(p[i] != 0) continue;
+                else{
+                    for(int j = 1; j <=n; j++){
+                        if(ed[j] == 1) continue;
+                        else{
+                            p[i] = j;
+                            ed[j] = 1;
+                            break;
+                        }
+                    } //inner else for
+                }
 
+                if(p[i] == 0){
+                    poss = false;
+                    break; //outer for
+                }//if p[i] still equals 0
+            } //outer for
+        }//if poss
+
+        if(!poss) System.out.print("-1");
+        else for(int k = 1; k<=n; k++) System.out.print(p[k]+" ");
+        System.out.println();
     } //main
 
-
+   
 } //public class Contest

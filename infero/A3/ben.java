@@ -1,10 +1,13 @@
+//Spoj_benefactor
+//BFS + BFS  -> Get longest path in weighted tree.
 import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Scanner;
 import java.util.StringTokenizer;
-public class Contest{
+import java.util.*;
+public class ben{
         static class Reader
     {
         final private int BUFFER_SIZE = 1 << 16;
@@ -142,9 +145,92 @@ public class Contest{
  
     public static void main(String[] args) throws IOException{
         Reader s = new Reader(); //Initialize a reader!
-        
+        int t= s.nextInt();
+        for(int foo=0; foo<t;foo++){
+        int n = s.nextInt();
+        ArrayList<ArrayList<Pair>> adj = new ArrayList<ArrayList<Pair>>();
+        for(int i =0;i <n; i++) adj.add(new ArrayList<Pair>());
+        for(int i=0; i<n-1;i++){
+            int a = (s.nextInt()-1);
+            int b = (s.nextInt()-1);
+            int d = s.nextInt();
+            adj.get(a).add(new Pair(b, d));
+            adj.get(b).add(new Pair(a, d));
+        }
+        int max=0,m2=0;
 
+        //DFS
+        Deque<Integer> stack = new LinkedList<Integer>();
+        stack.push(0);
+        boolean[] vis = new boolean[n];
+        int[] dist = new int[n];
+        vis[0]=true;
+        dist[0]=0;
+        int mi = 0;
+        
+        
+        while(!stack.isEmpty()){
+            
+            int p = stack.pop();
+            Iterator<Pair> itr = adj.get(p).iterator();
+            
+            while(itr.hasNext()){
+                Pair c = itr.next();
+                
+                if(!vis[c.x]){
+                   
+                    
+                    vis[c.x] = true;
+                    stack.push(c.x);
+                    dist[c.x] = dist[p] + c.y;
+                    if(max <= dist[c.x]) {max=dist[c.x];mi=c.x;}
+                }
+            
+            }
+        }
+        for(int i=0; i<n; i++){
+            vis[i] = false;
+            dist[i]=0;
+        }
+        stack.push(mi);
+        vis[mi]=true;
+        dist[mi]=0;
+        while(!stack.isEmpty()){
+            
+            int p = stack.pop();
+            Iterator<Pair> itr = adj.get(p).iterator();
+            
+            while(itr.hasNext()){
+                Pair c = itr.next();
+                
+                if(!vis[c.x]){
+                   
+                    
+                    vis[c.x] = true;
+                    stack.push(c.x);
+                    dist[c.x] = dist[p] + c.y;
+                    if(max <= dist[c.x]) {max=dist[c.x];mi=c.x;}
+                }
+            
+            }
+        }
+        /*int ct = 0, m2=0;;
+        for(int i=0; i <n; i++){
+            if(dist[i]==max) ct++;
+            if(ct!=0) m2 = m2 > dist[i] ? m2 : dist[i];
+        }*/
+        System.out.println(max);
+        } //test case loop
     } //main
 
 
-} //public class Contest
+} //public class Contests
+
+class Pair{
+    public int x;
+    public int y;
+    public Pair(int a, int b){
+        this.x = a;
+        this.y = b;
+    }
+}

@@ -1,10 +1,6 @@
-import java.io.DataInputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Scanner;
-import java.util.StringTokenizer;
-public class Contest{
+import java.io.*;
+import java.util.*;
+public class a{
         static class Reader
     {
         final private int BUFFER_SIZE = 1 << 16;
