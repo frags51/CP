@@ -4,7 +4,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Scanner;
 import java.util.StringTokenizer;
-public class chefmovr{
+import java.util.*;
+public class c{
         static class Reader
     {
         final private int BUFFER_SIZE = 1 << 16;
@@ -28,7 +29,7 @@ public class chefmovr{
  
         public String readLine() throws IOException
         {
-            byte[] buf = new byte[1009]; // line length
+            byte[] buf = new byte[600]; // line length
             int cnt = 0, c;
             while ((c = read()) != -1)
             {
@@ -43,7 +44,7 @@ public class chefmovr{
         */
         public String readWord() throws IOException
         {
-            byte[] buf = new byte[64]; // line length
+            byte[] buf = new byte[600]; // line length
             int cnt = 0, c;
             while ((c = read()) != -1)
             {
@@ -141,35 +142,56 @@ public class chefmovr{
     } //static class Reader
  
     public static void main(String[] args) throws IOException{
-        Reader s = new Reader(); //Initialize a reader!
-        boolean DEB = false;
-        int t = s.nextInt();
-        for(int _t = 0; _t < t; _t++){
-            long n = s.nextInt();
-            long d = s.nextInt();
-            long[] num = new long[(int)n+1];
-            boolean found = true;
-            long sum = 0;
-            for(int r = 1; r<=n; r++) {num[r] = s.nextLong(); sum+= (long)num[r];}
-            double avg = (double) sum/((double) n);
-            
-            if(DEB) System.out.println(">>>avg: "+avg+" , sum: "+sum);
-            if(sum%n!=0) found = false; // no average.
-            sum/=n;
-            long ops = 0;
-            for(int i=1; i<=(int)n-d; i++){
-                long change = sum - num[i];
-                num[i]+=change;
-                num[i+(int)d]-=change;
-                ops += (long) Math.abs(change);
-                            if(DEB) System.out.println(">>>\tFor i: "+i+" change: "+change+" , ops: "+ops);
-                //if(num[i+(int)d] <= 0) found = false;
-            } // for loop
-            for(int i=1; i<=(int)n; i++) if(num[i]!=sum) found = false;
-            if(found) System.out.println(ops);
-            else System.out.println("-1");
-        } //test case loop
+        Reader s = new Reader(); //Init a reader!
+        int n = s.nextInt();
+        ArrayList[] adj = new ArrayList[n+1];
+            for(int i = 1; i < n+1; i++) adj[i] = new ArrayList<Integer>();
+            for(int i = 1; i < n; i++){
+                int a = s.nextInt();
+                int b = s.nextInt();
+                adj[a].add((b));
+                adj[b].add((a));
+                
+            }
+            int root = 1;
+            int[] dist = new int[n+1];
+            boolean[] vis = new boolean[n+1];
+            //bfs
+            Deque<Integer> q = new LinkedList<Integer>();
+            q.addLast(root);
+            vis[root] = true;
+            dist[root] = 0;
+            double[] pp = new double[n+1];
+            for(int r=0; r<=n; r++) pp[r] = (double) 1;
+            double cp=1;
+            double exp =0.0000000;
+            boolean deb = false;
+            while(q.peekFirst()!=null){
+                int p = q.peekFirst();
+                q.removeFirst();
+                double nChild=0;
+                Iterator itr = adj[p].iterator();
+                while(itr.hasNext()){
+                    int c =((Integer) itr.next());
+                    if(!vis[c]) nChild++;
+                }
 
+                double prob=0;
+                if(nChild==(double)0) {exp+=(dist[p] * pp[p]); if(deb) System.out.println(">>>@leaf: "+p);}
+                else { prob = (double)1/nChild;}
+                
+                itr = adj[p].iterator();
+                while(itr.hasNext()){
+                    int c = ((Integer)itr.next());
+                    if(!vis[c]){
+                        pp[c]*=(prob*pp[p]);
+                        dist[c] = dist[p] + 1;
+                        vis[c] = true;
+                        q.addLast(c);
+                    }
+                }
+            }
+        System.out.printf("%.15f%n", exp);           
     } //main
 
 

@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Scanner;
 import java.util.StringTokenizer;
-public class chefmovr{
+public class b{
         static class Reader
     {
         final private int BUFFER_SIZE = 1 << 16;
@@ -28,7 +28,7 @@ public class chefmovr{
  
         public String readLine() throws IOException
         {
-            byte[] buf = new byte[1009]; // line length
+            byte[] buf = new byte[600]; // line length
             int cnt = 0, c;
             while ((c = read()) != -1)
             {
@@ -43,7 +43,7 @@ public class chefmovr{
         */
         public String readWord() throws IOException
         {
-            byte[] buf = new byte[64]; // line length
+            byte[] buf = new byte[600]; // line length
             int cnt = 0, c;
             while ((c = read()) != -1)
             {
@@ -141,35 +141,24 @@ public class chefmovr{
     } //static class Reader
  
     public static void main(String[] args) throws IOException{
-        Reader s = new Reader(); //Initialize a reader!
-        boolean DEB = false;
-        int t = s.nextInt();
-        for(int _t = 0; _t < t; _t++){
-            long n = s.nextInt();
-            long d = s.nextInt();
-            long[] num = new long[(int)n+1];
-            boolean found = true;
-            long sum = 0;
-            for(int r = 1; r<=n; r++) {num[r] = s.nextLong(); sum+= (long)num[r];}
-            double avg = (double) sum/((double) n);
+        Reader s = new Reader(); //Init a reader!
+        int n = s.nextInt();
+        int k = s.nextInt();
+        int[] can = new int[k];
+        int seat2 = 4*n;
+        int seat4 = 4*n;
+        boolean f = true;
+        boolean DEB = true;
+        for(int r=0; r<k; r++) {can[r] = s.nextInt();
             
-            if(DEB) System.out.println(">>>avg: "+avg+" , sum: "+sum);
-            if(sum%n!=0) found = false; // no average.
-            sum/=n;
-            long ops = 0;
-            for(int i=1; i<=(int)n-d; i++){
-                long change = sum - num[i];
-                num[i]+=change;
-                num[i+(int)d]-=change;
-                ops += (long) Math.abs(change);
-                            if(DEB) System.out.println(">>>\tFor i: "+i+" change: "+change+" , ops: "+ops);
-                //if(num[i+(int)d] <= 0) found = false;
-            } // for loop
-            for(int i=1; i<=(int)n; i++) if(num[i]!=sum) found = false;
-            if(found) System.out.println(ops);
-            else System.out.println("-1");
-        } //test case loop
+            //if(DEB) System.out.println( (int) (Math.ceil((double)can[r]/(double)2.0)));
+            if(seats < 0) f= false;
+        }
 
+        //if(k > sum) System.out.println("-1");
+        if(f)  System.out.println("YES");
+        else System.out.println("NO");
+        
     } //main
 
 

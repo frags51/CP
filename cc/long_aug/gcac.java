@@ -4,7 +4,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Scanner;
 import java.util.StringTokenizer;
-public class chefmovr{
+import java.util.ArrayList;
+public class gcac{
         static class Reader
     {
         final private int BUFFER_SIZE = 1 << 16;
@@ -145,29 +146,48 @@ public class chefmovr{
         boolean DEB = false;
         int t = s.nextInt();
         for(int _t = 0; _t < t; _t++){
-            long n = s.nextInt();
-            long d = s.nextInt();
-            long[] num = new long[(int)n+1];
-            boolean found = true;
-            long sum = 0;
-            for(int r = 1; r<=n; r++) {num[r] = s.nextLong(); sum+= (long)num[r];}
-            double avg = (double) sum/((double) n);
             
-            if(DEB) System.out.println(">>>avg: "+avg+" , sum: "+sum);
-            if(sum%n!=0) found = false; // no average.
-            sum/=n;
-            long ops = 0;
-            for(int i=1; i<=(int)n-d; i++){
-                long change = sum - num[i];
-                num[i]+=change;
-                num[i+(int)d]-=change;
-                ops += (long) Math.abs(change);
-                            if(DEB) System.out.println(">>>\tFor i: "+i+" change: "+change+" , ops: "+ops);
-                //if(num[i+(int)d] <= 0) found = false;
-            } // for loop
-            for(int i=1; i<=(int)n; i++) if(num[i]!=sum) found = false;
-            if(found) System.out.println(ops);
-            else System.out.println("-1");
+            int n = s.nextInt();
+            int m = s.nextInt();
+            int minSal[] = new int[n];
+            for(int r=0; r<n; r++) minSal[r] = s.nextInt();
+            int offSal[] = new int[m];
+            int offJob[] = new int[m];
+            for(int r=0; r<m; r++) {offSal[r]=s.nextInt(); offJob[r] = s.nextInt();}
+            String[] qual = new String[n];
+            for(int r=0; r<n; r++) qual[r]=s.readLine();
+            long total_sal = 0;
+            boolean[] hired = new boolean[m];
+            int got_jobs = 0;
+            int not_hire = 0;
+
+            for(int i=0; i<n; i++){
+                if(DEB) System.out.println(">>Candidate: "+i);
+                int max_sal = 0;
+                int max_sal_index = -1;
+                for(int j = 0; j<m; j++){
+                    if(qual[i].charAt(j)=='1' && offJob[j]>0 && offSal[j]>=minSal[i]) {
+
+                        if(offSal[j] > max_sal){
+                            max_sal = offSal[j];
+                            max_sal_index = j;
+                        }
+                       
+                    }
+
+                    
+                }//for inner
+                if(max_sal_index != -1){
+                        offJob[max_sal_index]--;
+                        hired[max_sal_index] = true;
+                        total_sal += (long) max_sal;
+                        got_jobs++;
+                        if(DEB) System.out.println("\t>>>>Got job @: "+max_sal_index);
+                }
+                    
+            }//for outer
+            for(int r = 0; r<m; r++) if(!hired[r]) not_hire++;
+            System.out.println(got_jobs+" "+total_sal+" "+not_hire);
         } //test case loop
 
     } //main

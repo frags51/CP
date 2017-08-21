@@ -1,12 +1,11 @@
 // Working program with FastReader
-import static java.lang.System.out;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Scanner;
 import java.util.StringTokenizer;
  
-public class Contest{
+public class a{
     static class FastReader{
         BufferedReader br;
         StringTokenizer st;
@@ -66,6 +65,17 @@ public class Contest{
     public static void main(String[] args)
     {
         FastReader s=new FastReader();
-
-    } //main
-} //contest
+        int n = s.nextInt();
+        int k = s.nextInt();
+        String col = s.nextLine();
+        int[] cnt = new int[26];
+        for(int i=0; i<26; i++) cnt[i]= 0;
+        for(int i = 0; i <col.length(); i++){
+            cnt[col.charAt(i)-'a']++;
+        }
+        boolean found=true;
+        for(int i=0; i<26; i++) if(cnt[i] > k) found = false;
+        if(found) System.out.println("YES");
+        else System.out.println("NO");  
+    }
+}
