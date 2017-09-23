@@ -65,22 +65,47 @@ public class seaco{
  
     public static void main(String[] args)
     {
-        FastReader s=new FastReader();
-        
+FastReader s=new FastReader();
+        boolean deb = false;
         int t = s.nextInt();
         for(int _t=0; _t<t; _t++){
             int n = s.nextInt();
-            int[] num_arr= new int[n+1];
             int m = s.nextInt();
-            Trip[] arr = new Trip[m+1];
+            long[] num_arr= new long[m+2];
+            long[] cmd_arr = new long[m+2];
+            long[] ans = new long[n+2];
+            Trip[] cmd = new Trip[m+1];
             for(int j=1; j<=m; j++){
                 int a = s.nextInt();
                 int b = s.nextInt();
                 int c = s.nextInt();
-                arr[j] = new Trip(n, a, b, c);
+                cmd[j] = new Trip(n, a, b, c);
             }
-            for(int j=1; j<=m; j++) Trip.exec(arr[j], arr, num_arr);
-            for(int i=1; i<=n; i++) out.print(num_arr[i]+" ");
+            for(int j=m; j>=1; j--){
+                num_arr[j] +=num_arr[j+1];
+                if(cmd[j].ty==2){
+                    num_arr[j]++;
+                    num_arr[j-1]--;
+                    num_arr[cmd[j].ri]+=num_arr[j];
+                    num_arr[cmd[j].li-1]-=num_arr[j];
+                    
+                }
+            } //loop from back
+            if(deb) for(int j=1; j<=m; j++) {out.print("\nNUM_AR: "+j+" ");out.print(num_arr[j]+ " ");out.println("");}
+ 
+            for(int j=m; j>=1; j--){
+                if(cmd[j].ty==1){
+                    ans[cmd[j].li]+=(num_arr[j]+1);
+                    ans[cmd[j].ri+1]-=(num_arr[j]+1);
+                }
+            } //loop from back
+ 
+            for(int j=2; j<=n; j++){
+                ans[j] = ans[j-1] + ans[j];
+            }
+            for(int j=1; j<=n; j++) ans[j]%=Trip.modder;
+            for(int j=1; j<=n; j++) out.print(ans[j]+" ");
+            
             out.println("");
         }//test case loop
     } //main
