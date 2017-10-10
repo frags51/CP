@@ -82,8 +82,8 @@ public class gym1{
                 if(mat[i][j]==0) {cnt = 0;pc=-1;continue;}
                 else {cnt++;pc++;}
                 
-                if(cnt==1 && i >=1){
-                    pc = paint[i-1][j]+1;
+                if(cnt>=1 && i >=1){
+                    if(paint[i-1][j]!=-1) pc = paint[i-1][j]+1;
                 }//i>=1 and started a segment just now.
                 paint[i][j] = (pc%k);
                 if(cnt>k) poss2=false;
@@ -103,7 +103,15 @@ public class gym1{
                 if(i==n-1){cnt=0; pc=-1;}
             }
             }
-            if(!poss2) out.println("NO");
+            if(!poss2) {out.println("NO");
+            for(int i=0; i<n; i++){
+                    for(int j=0; j<m; j++){
+                        out.print((paint[i][j]+1)+" ");
+                    }
+                    out.println();
+                }
+            
+            }
             else{
                 out.println("YES");
                 for(int i=0; i<n; i++){
